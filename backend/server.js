@@ -1,7 +1,9 @@
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import weatherRoutes from './src/api/weather.js';
 
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -9,8 +11,10 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (request, result) => {
-    result.json({message: 'The server is running!'});
+app.use('/api/weather', weatherRoutes);
+
+app.get('/', (req, res) => {
+    res.json({ message: 'The server is running!' });
 });
 
 app.listen(PORT, () => {
