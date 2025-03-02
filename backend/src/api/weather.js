@@ -36,8 +36,17 @@ router.get("/", async (request, result) => {
         });
 
     } catch (e) {
-        console.error("Error fetching weather data:", e.message);
-        result.status(500).json({ error: "Failed to fetch weather data." });
+        if (e.response) {
+            if (e.response.status === 400) {
+                return result.status(400).json({ error: "Invalid request. Please check that your city name is valid." });
+            } else if (e.response.status === 403) {
+                return result.status(403).json({ error: "There was an issue with your API key." });
+            } else if (e.response.status === 500) {
+                return result.status(500).json({ error: "500 error. Weather API service is currently down." });
+            }
+        } else {
+            return result.status(500).json({ error: "An unexpected error occurred. Please try again." });
+        }
     }
 });
 
