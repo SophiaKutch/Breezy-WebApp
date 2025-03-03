@@ -1,0 +1,112 @@
+.weather-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    padding: 16px;
+}
+
+.weather-card {
+    background: linear-gradient(#404fd3, #80adf7);
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.weather-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+    width: 100%;              
+    margin-top: 10px;
+}
+
+.weather-input {
+    width: 30%; 
+    max-width: 300px; 
+    padding: 12px;
+    font-size: 16px;
+    border: none; 
+    border-radius: 30px; 
+    outline: none; 
+    background-color: #f5f5f5; 
+    text-align: left; 
+    box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: 0.3s ease-in-out;
+}
+
+.weather-button {
+    color: black;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-left: 10px;
+}
+
+.weather-button:hover {
+    background-color: #404fd3;
+}
+
+.weather-info {
+    margin-top: 10px;
+}
+
+.weather-icon {
+    width: 75px;
+    height: auto;
+    display: block; 
+    margin: 4px auto; 
+    padding: 0; 
+}
+
+.weather-details {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.weather-box {
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100px;
+}
+
+.weather-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+}
+
+.weather-list li {
+    padding: 6px 0;
+    border: none;
+    outline: none;
+}
+
+h1 {
+    font-size: 60px;
+    margin: 10px; 
+}
+
+h3 {
+    font-size: 18px;
+    margin: 5px; 
+}

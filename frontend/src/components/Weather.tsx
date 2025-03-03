@@ -1,73 +1,6 @@
-// import React, { useState } from "react";
-// import { getWeatherData } from "../api/weatherAPI";
-
-// function Weather () {
-//     const [city, setCity] = useState("");
-//     const [weather, setWeather] = useState(null);
-//     const [error, setError] = useState(null);
-//     const [loading, setLoading] = useState(false);
-
-//     const fetchWeather = async () => {
-//         if (!city) return;
-//         setLoading(true);
-//         setError(null);
-
-//         try {
-//             const data = await getWeatherData(city);
-//             setWeather(data); 
-//         } catch (e) {
-//             setWeather(null);
-//             setError("Error fetching weather data");
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     const formatDateTime = (timeString) => {
-//         if (!timeString) return " ";
-
-//         const [date, time] = timeString.split(" ");
-//         const [, month, day] = date.split("-"); 
-
-//         return `${month}/${day} at ${time}`;
-//     };
-
-//     return (
-//         <div>
-//             <h2>Welome to Breezy Weather App</h2>
-//             <input
-//                 type="text"
-//                 placeholder="Enter a city name..."
-//                 value={city}
-//                 onChange={(e) => setCity(e.target.value)}
-//             />
-//             <button onClick={fetchWeather} disabled={loading}>
-//                 {loading ? "Loading..." : "Go"}
-//             </button>
-
-//             {error && <p style={{ color: "red" }}>{error}</p>}
-//             {loading && <p>Speaking to my weather satelites...</p>}
-
-//             {weather && !loading && (
-//                 <div>
-//                     <h3>{weather.location}, {weather.region}</h3>
-//                     <p>{weather.country}</p>
-//                     <h2>{weather.temperature}°F</h2>
-//                     <img src={weather.icon} alt="weather-icon" /> 
-//                     <p>{weather.condition}</p>
-//                     <p>Humidity: {weather.humidity}</p>
-//                     <p>UV Index: {weather.uv}</p>
-//                     <p>{formatDateTime(weather.time)}</p>
-//                 </div>
-//             )}
-//         </div>
-//     );
-// }
-
-// export default Weather;
-
 import React, { useState } from "react";
 import { getWeatherData, WeatherData } from "../api/weatherAPI";
+import "../styles/Weather.css";
 
 const Weather: React.FC = () => {
     const [city, setCity] = useState<string>("");
@@ -96,43 +29,59 @@ const Weather: React.FC = () => {
         }
     };
 
-    const formatDateTime = (timeString: string | null): string => {
-        if (!timeString) return " ";
-
-        const [date, time] = timeString.split(" ");
-        const [, month, day] = date.split("-");
-
-        return `${month}/${day} at ${time}`;
+    const getTimeBasedBackground = (weatherTime: string) => {
+        if (!weatherTime) return "linear-gradient(to bottom, #AEE2FF, #1E3A8A)";
+    
+        const hour = parseInt(weatherTime.split(" ")[1].split(":")[0], 10);
+    
+        if (hour >= 6 && hour < 12) {
+            return "linear-gradient(to bottom, #FFEB99, #1E3A8A)"; 
+        } else if (hour >= 12 && hour < 18) {
+            return "linear-gradient(to bottom, #AEE2FF, #1E3A8A)";
+        } else {
+            return "linear-gradient(to bottom, #1A237E, #4A148C)";; 
+        }
     };
 
     return (
-        <div>
-            <h2>Welcome to Breezy Weather App</h2>
-            <input
-                type="text"
-                placeholder="Enter a city name..."
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-            />
-            <button onClick={fetchWeather} disabled={loading}>
-                {loading ? "Loading..." : "Go"}
-            </button>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {loading && <p>Speaking to my weather satellites...</p>}
-
-            {weather && !loading && (
-                <div>
-                    <h3>{weather.location}, {weather.region}</h3>
-                    <p>{weather.country}</p>
-                    <h2>{weather.temperature}°F</h2>
-                    <img src={weather.icon} alt="weather-icon" /> 
-                    <p>{weather.condition}</p>
-                    <p>Humidity: {weather.humidity}</p>
-                    <p>UV Index: {weather.uv}</p>
-                    <p>{formatDateTime(weather.time)}</p>
+        <div className="weather-container">
+            <div className="weather-card" style={{background: getTimeBasedBackground(weather?.time || "12:00")}}>
+                <h2 className="weather-title">Welcome to Breezy Weather App</h2>
+                <div className="input-container">
+                    <input
+                        className="weather-input"
+                        type="text"
+                        placeholder="Enter a city name..."
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                    />
+                    <button onClick={fetchWeather} disabled={loading} className="weather-button">
+                        {loading ? "Loading..." : "Go"}
+                    </button>
                 </div>
-            )}
+                
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                {loading && <p>Speaking to my weather satellites...</p>}
+
+                {weather && !loading && (
+                    <div className="weather-info">
+                        <h3>{weather.location}, {weather.region}</h3>
+                    
+                        <img src={weather.icon} alt="weather-icon" className="weather-icon"/> 
+                        <h1>{Math.floor(weather.temperature)}°F</h1>
+                        <h3>{weather.condition}</h3>
+                        
+                        <ul className="weather-list">
+                            <li>
+                                <strong>Humidity:</strong> {weather.humidity}%
+                            </li>
+                            <li>
+                                <strong>UV Index:</strong> {Math.floor(weather.uv)}
+                            </li>
+                        </ul>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
