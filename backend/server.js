@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import weatherRoutes from './src/api/weather.js';
+import openaiRoutes from './src/api/openAI.js';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/weather', weatherRoutes);
+app.use('/api/openAI', openaiRoutes)
 
 app.get('/', (req, res) => {
     res.json({ message: 'The server is running!' });
